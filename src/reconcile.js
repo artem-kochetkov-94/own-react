@@ -12,13 +12,12 @@ export default function reconcile(parentDom, instance, element) {
     // Убираем инстанс
     parentDom.removeChild(instance.dom)
     return null
-  } else if (instance.element.type == element.type) {
-    // Обновляем инстанс
-    updateDomProperties(instance.dom, instance.element.props, element.props)
-    instance.childInstances = reconcileChildren(instance, element)
-    instance.element = element
-    return instance
-    } else if (typeof element.type == "string") {
+  } else if (instance.element.type !== element.type) {
+    // Заменяем инстанс
+    const newInstance = instantiate(element)
+    parentDom.replaceChild(newInstance.dom, instance.dom)
+    return newInstance
+  } else if (typeof element.type == "string") {
     // Обновляем инстанс DOM-элемента
     updateDomProperties(instance.dom, instance.element.props, element.props)
     instance.childInstances = reconcileChildren(instance, element)

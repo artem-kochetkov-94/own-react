@@ -1,3 +1,5 @@
+import updateInstance from './updateInstance'
+
 export default class Component {
   constructor(props) {
     this.props = props
